@@ -1,59 +1,69 @@
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
-import org.kohsuke.args4j.CmdLineException
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.io.PrintStream
-import kotlin.test.assertFailsWith
 
 class CutMainTest {
 
     @Test
-    fun testCharacterSubstring(){
+    fun testCharacterSubstring() {
         val cutMain = CutMain()
-        val outputStream = ByteArrayOutputStream()
-        System.setOut(PrintStream(outputStream))
-        cutMain.doMain(arrayOf("-c", "src\\main\\kotlin\\input.txt", "3"))
-        val expectedOutput = "l"
-        assertEquals(expectedOutput, outputStream.toString())
+        val outputFilePath = "src/test/resources/output.txt"
+        cutMain.doMain(arrayOf("-c", "-o", outputFilePath, "src/main/kotlin/input.txt", "4"))
+
+        val expectedOutput = "l\no\nl"
+        val outputFile = File(outputFilePath)
+        assertTrue(outputFile.exists())
+        assertEquals(expectedOutput, outputFile.readText().trim())
     }
 
     @Test
-    fun testWordSubstring(){
+    fun testWordSubstring() {
         val cutMain = CutMain()
-        val outputStream = ByteArrayOutputStream()
-        System.setOut(PrintStream(outputStream))
-        cutMain.doMain(arrayOf("-w", "src\\main\\kotlin\\input.txt", "4"))
-        val expectedOutput = "day"
-        assertEquals(expectedOutput, outputStream.toString())
+        val outputFilePath = "src/test/resources/output.txt"
+        cutMain.doMain(arrayOf("-w", "-o", outputFilePath, "src/main/kotlin/input.txt", "4"))
+
+        val expectedOutput = "day\ncut\nday"
+        val outputFile = File(outputFilePath)
+        assertTrue(outputFile.exists())
+        assertEquals(expectedOutput, outputFile.readText().trim())
     }
 
     @Test
-    fun testCharRange(){
+    fun testWordRange() {
         val cutMain = CutMain()
-        val outputStream = ByteArrayOutputStream()
-        System.setOut(PrintStream(outputStream))
-        cutMain.doMain(arrayOf("-c", "src\\main\\kotlin\\input.txt", "1-4"))
-        val expectedOutput = "ell"
-        assertEquals(expectedOutput, outputStream.toString())
-    }
-    @Test
-    fun testWordRange(){
-        val cutMain = CutMain()
-        val outputStream = ByteArrayOutputStream()
-        System.setOut(PrintStream(outputStream))
-        cutMain.doMain(arrayOf("-w", "src\\main\\kotlin\\input.txt", "1-4"))
-        val expectedOutput = "Hello World new day"
-        assertEquals(expectedOutput, outputStream.toString())
+        val outputFilePath = "src/test/resources/output.txt"
+        cutMain.doMain(arrayOf("-w", "-o", outputFilePath, "src/main/kotlin/input.txt", "1-4"))
+
+        val expectedOutput = "Hello World new day\nSecond line for cut\nHello World new day"
+        val outputFile = File(outputFilePath)
+        assertTrue(outputFile.exists())
+        assertEquals(expectedOutput, outputFile.readText().trim())
     }
 
     @Test
-    fun testCharRangeOver(){
+    fun testCharRangeOver() {
         val cutMain = CutMain()
-        val outputStream = ByteArrayOutputStream()
-        System.setOut(PrintStream(outputStream))
-        cutMain.doMain(arrayOf("-c", "src\\main\\kotlin\\input.txt", "6-"))
-        val expectedOutput = "World new day have a great day!"
-        assertEquals(expectedOutput, outputStream.toString())
+        val outputFilePath = "src/test/resources/output.txt"
+        cutMain.doMain(arrayOf("-c", "-o", outputFilePath, "src/main/kotlin/input.txt", "6-"))
+
+        val expectedOutput = "World new day have a great day!\n line for cut program polytechn\nWorld new day have a great day!"
+        val outputFile = File(outputFilePath)
+        assertTrue(outputFile.exists())
+        assertEquals(expectedOutput, outputFile.readText().trim())
+    }
+
+    @Test
+    fun testWordRangeOver() {
+        val cutMain = CutMain()
+        val outputFilePath = "src/test/resources/output.txt"
+        cutMain.doMain(arrayOf("-w", "-o", outputFilePath, "src/main/kotlin/input.txt", "4-"))
+
+        val expectedOutput = "day have a great day!\ncut program polytechn\nday have a great day!"
+        val outputFile = File(outputFilePath)
+        assertTrue(outputFile.exists())
+        assertEquals(expectedOutput, outputFile.readText().trim())
     }
 }

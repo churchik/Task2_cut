@@ -36,9 +36,12 @@ class CutMain {
             if (range.isNullOrEmpty()) {
                 throw CmdLineException(parser, "No range specified")
             }
+
             if (wordBased && characterBased){
                 throw CmdLineException(parser, "Can't be both args")
             }
+
+
 
         } catch (e: CmdLineException) {
             System.err.println(e.message)
@@ -50,20 +53,27 @@ class CutMain {
         val reader = inputFile?.let { FileReader(it) }?.let { BufferedReader(it) }
         var line: String? = reader?.readLine()
         val rangeArray = line?.let { parseRange(range!!, it.length) }
+
+        val outputWriter = outputFile?.let { FileWriter(it, false) }
         while (line != null) {
             val cutLine = rangeArray?.let { cutLine(line!!, it) }
             if (outputFile.isNullOrEmpty()) {
                 print(cutLine)
+                if (reader?.ready() == true) { // проверяем, является ли строка последней в файле
+                    print("\n") // если нет, добавляем символ новой строки
+                }
             } else {
-                val outputWriter = outputFile?.let { FileWriter(it) }
                 outputWriter?.write(cutLine)
-                outputWriter?.write("\n")
-                outputWriter?.close()
+                if (reader?.ready() == true) {
+                    outputWriter?.write("\n")
+                }
             }
             line = reader?.readLine()
         }
+        outputWriter?.close()
         reader?.close()
     }
+
 
     private fun parseRange(range: String, lineLength: Int): IntArray {
         val rangeArray = IntArray(2)
