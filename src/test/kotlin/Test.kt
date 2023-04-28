@@ -11,7 +11,7 @@ class CutMainTest {
     fun testCharacterSubstring() {
         val cutMain = CutMain()
         val outputFilePath = "src/test/resources/output.txt"
-        cutMain.doMain(arrayOf("-c", "-o", outputFilePath, "src/main/kotlin/input.txt", "4"))
+        cutMain.doMain(arrayOf("-c", "-o", outputFilePath, "resources/input.txt", "4"))
 
         val expectedOutput = "l\no\nl"
         val outputFile = File(outputFilePath)
@@ -23,7 +23,7 @@ class CutMainTest {
     fun testWordSubstring() {
         val cutMain = CutMain()
         val outputFilePath = "src/test/resources/output.txt"
-        cutMain.doMain(arrayOf("-w", "-o", outputFilePath, "src/main/kotlin/input.txt", "4"))
+        cutMain.doMain(arrayOf("-w", "-o", outputFilePath, "resources/input.txt", "4"))
 
         val expectedOutput = "day\ncut\nday"
         val outputFile = File(outputFilePath)
@@ -35,7 +35,7 @@ class CutMainTest {
     fun testWordRange() {
         val cutMain = CutMain()
         val outputFilePath = "src/test/resources/output.txt"
-        cutMain.doMain(arrayOf("-w", "-o", outputFilePath, "src/main/kotlin/input.txt", "1-4"))
+        cutMain.doMain(arrayOf("-w", "-o", outputFilePath, "resources/input.txt", "1-4"))
 
         val expectedOutput = "Hello World new day\nSecond line for cut\nHello World new day"
         val outputFile = File(outputFilePath)
@@ -47,7 +47,7 @@ class CutMainTest {
     fun testCharRangeOver() {
         val cutMain = CutMain()
         val outputFilePath = "src/test/resources/output.txt"
-        cutMain.doMain(arrayOf("-c", "-o", outputFilePath, "src/main/kotlin/input.txt", "6-"))
+        cutMain.doMain(arrayOf("-c", "-o", outputFilePath, "resources/input.txt", "6-"))
 
         val expectedOutput = "World new day have a great day!\n line for cut program polytechn\nWorld new day have a great day!"
         val outputFile = File(outputFilePath)
@@ -59,7 +59,7 @@ class CutMainTest {
     fun testWordRangeOver() {
         val cutMain = CutMain()
         val outputFilePath = "src/test/resources/output.txt"
-        cutMain.doMain(arrayOf("-w", "-o", outputFilePath, "src/main/kotlin/input.txt", "4-"))
+        cutMain.doMain(arrayOf("-w", "-o", outputFilePath, "resources/input.txt", "4-"))
 
         val expectedOutput = "day have a great day!\ncut program polytechn\nday have a great day!"
         val outputFile = File(outputFilePath)
